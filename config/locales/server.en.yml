@@ -1,0 +1,3 @@
+en:
+  site_settings:
+    discourse_add_new_posts_to_summary_enabled: "Enable DiscourseAddNewPostsToSummary plugin"

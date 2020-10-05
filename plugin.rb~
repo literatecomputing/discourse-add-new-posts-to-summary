@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+# name: DiscourseAddNewPostsToSummary
+# about: Add new posts to summary email
+# version: 0.1
+# authors: literatecomputing
+# url: https://github.com/literatecomputing
+
+register_asset 'stylesheets/common/discourse-add-new-posts-to-summary.scss'
+register_asset 'stylesheets/desktop/discourse-add-new-posts-to-summary.scss', :desktop
+register_asset 'stylesheets/mobile/discourse-add-new-posts-to-summary.scss', :mobile
+
+enabled_site_setting :discourse_add_new_posts_to_summary_enabled
+
+PLUGIN_NAME ||= 'DiscourseAddNewPostsToSummary'
+
+load File.expand_path('lib/discourse-add-new-posts-to-summary/engine.rb', __dir__)
+
+after_initialize do
+  # https://github.com/discourse/discourse/blob/master/lib/plugin/instance.rb
+end
