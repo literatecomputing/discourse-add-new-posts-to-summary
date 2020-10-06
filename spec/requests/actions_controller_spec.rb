@@ -20,7 +20,6 @@ describe DiscourseAddNewPostsToSummary::ActionsController do
     # these are from discourse/spec/mailers/user_notifications_spec.rb
     it "works" do
       SiteSetting.discourse_add_new_posts_to_summary_enabled=true
-      SiteSetting.discourse_add_new_posts_include_new_post_count=true
       expect(subject.to).to eq([user.email])
       expect(subject.subject).to be_present
       expect(subject.from).to eq([SiteSetting.notification_email])
@@ -32,7 +31,6 @@ describe DiscourseAddNewPostsToSummary::ActionsController do
 
     it "supports subfolder" do
       SiteSetting.discourse_add_new_posts_to_summary_enabled=true
-      SiteSetting.discourse_add_new_posts_include_new_post_count=true
       set_subfolder "/forum"
       html = subject.html_part.body.to_s
       text = subject.text_part.body.to_s
@@ -49,26 +47,13 @@ describe DiscourseAddNewPostsToSummary::ActionsController do
 
 
     # these are for the plugin
-    it "works if add-new-posts-to-summary is set" do
-      SiteSetting.discourse_add_new_posts_to_summary_enabled=true
-      expect(subject.html_part.body.to_s).to include('New Users')
-    end
-
     it "includes New Posts" do
       SiteSetting.discourse_add_new_posts_to_summary_enabled=true
-      SiteSetting.discourse_add_new_posts_include_new_post_count=true
       expect(subject.html_part.body.to_s).to include('New Posts')
     end
 
     it "does not include New Posts if plugin not enabled " do
       SiteSetting.discourse_add_new_posts_to_summary_enabled=false
-      SiteSetting.discourse_add_new_posts_include_new_post_count=true
-      expect(subject.html_part.body.to_s).to_not include('New Posts')
-    end
-
-    it "does not include New Posts if add to post setting not enabled" do
-      SiteSetting.discourse_add_new_posts_to_summary_enabled=true
-      SiteSetting.discourse_add_new_posts_include_new_post_count=false
       expect(subject.html_part.body.to_s).to_not include('New Posts')
     end
 

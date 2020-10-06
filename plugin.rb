@@ -30,12 +30,10 @@ after_initialize do
         since = opts[:since]
         new_posts_count = Post.where("created_at > ?", since).count
 
-        if SiteSetting.discourse_add_new_posts_include_new_post_count
-          @post_count = { label_key: 'add_to_summary.digest.new_posts',
-          value: new_posts_count,
-          href: "#{Discourse.base_url}/new" }
-          puts "JP YYY UserNotificationOverride! Since: #{since}. Posts: #{new_posts_count}. PC: #{@post_counts}"
-        end
+        @post_count = { label_key: 'add_to_summary.digest.new_posts',
+        value: new_posts_count,
+        href: "#{Discourse.base_url}/new" }
+        puts "JP YYY UserNotificationOverride! Since: #{since}. Posts: #{new_posts_count}. PC: #{@post_counts}"
         super(user, opts)
       end
     end

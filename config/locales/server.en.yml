@@ -1,7 +1,6 @@
 en:
   site_settings:
     discourse_add_new_posts_to_summary_enabled: "Enable DiscourseAddNewPostsToSummary plugin"
-    discourse_add_new_posts_include_new_post_count: "Include New Post Count in Summary"
     
   add_to_summary:
     digest:
