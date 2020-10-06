@@ -18,10 +18,9 @@ load File.expand_path('lib/discourse-add-new-posts-to-summary/engine.rb', __dir_
 
 Rails.configuration.paths['app/views'].unshift(Rails.root.join('plugins', 'discourse-add-new-posts-to-summary', 'app/views'))
 
-
 after_initialize do
   if enabled_site_setting
-  # https://github.com/discourse/discourse/blob/master/lib/plugin/instance.rb
+    # https://github.com/discourse/discourse/blob/master/lib/plugin/instance.rb
     # see lib/plugin/instance.rb for the methods available in this context
 
     require_dependency 'user_notifications'
@@ -31,8 +30,8 @@ after_initialize do
         new_posts_count = Post.where("created_at > ?", since).count
 
         @post_count = { label_key: 'add_to_summary.digest.new_posts',
-        value: new_posts_count,
-        href: "#{Discourse.base_url}/new" }
+                        value: new_posts_count,
+                        href: "#{Discourse.base_url}/new" }
         puts "JP YYY UserNotificationOverride! Since: #{since}. Posts: #{new_posts_count}. PC: #{@post_counts}"
         super(user, opts)
       end

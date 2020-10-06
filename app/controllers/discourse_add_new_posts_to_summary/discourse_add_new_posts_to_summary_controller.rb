@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscourseAddNewPostsToSummary
   class DiscourseAddNewPostsToSummaryController < ::ApplicationController
     requires_plugin DiscourseAddNewPostsToSummary
