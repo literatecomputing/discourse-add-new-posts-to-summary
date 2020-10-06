@@ -2,3 +2,6 @@ plugins:
   discourse_add_new_posts_to_summary_enabled:
     default: true
     client: true
+  discourse_add_new_posts_include_new_post_count:
+    default: true
+    client: true
