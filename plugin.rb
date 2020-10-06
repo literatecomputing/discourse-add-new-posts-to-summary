@@ -20,44 +20,21 @@ Rails.configuration.paths['app/views'].unshift(Rails.root.join('plugins', 'disco
 
 
 after_initialize do
+  if enabled_site_setting
   # https://github.com/discourse/discourse/blob/master/lib/plugin/instance.rb
     # see lib/plugin/instance.rb for the methods available in this context
 
     require_dependency 'user_notifications'
     module ::UserNotificationsOverride
       def digest(user, opts = {})
-        @add_to_data = {}
-        if SiteSetting.discourse_add_to_summary_enabled
-          @add_to_data = {}
-          base = Discourse.base_url
-          base.gsub!(/localhost/,"localhost:3000") # make this work for development
-          before_id=SiteSetting.discourse_add_to_summary_before_header_topic_id
-          if before_id.to_i > 0
-            btopic=Topic.find(before_id)
-            before_post_list = Post.where(topic_id: before_id, post_number: btopic.highest_post_number)
-            before_text = ""
-            if before_post_list.length > 0
-              before_text = before_post_list.first.cooked
-            end
-            before_text.gsub!(/\/\/localhost/,base)
-            @add_to_data[:before_text] = before_text
-            @add_to_data[:before_css] = SiteSetting.discourse_add_to_summary_before_header_css
-            @add_to_data[:before] = before_text.length>0
-          end
+        since = opts[:since]
+        new_posts_count = Post.where("created_at > ?", since).count
 
-          after_id=SiteSetting.discourse_add_to_summary_after_header_topic_id
-          if after_id.to_i > 0
-            atopic=Topic.find(after_id)
-            after_post_list = Post.where(topic_id: after_id, post_number: atopic.highest_post_number) unless !atopic
-            after_text = ""
-            if after_post_list.length > 0
-              after_text = after_post_list.first.cooked
-            end
-            after_text.gsub!(/\/\/localhost/,base)
-            @add_to_data[:after_text] = after_text
-            @add_to_data[:after_css] = SiteSetting.discourse_add_to_summary_after_header_css
-            @add_to_data[:after] = after_text.length>0
-          end
+        if SiteSetting.discourse_add_new_posts_include_new_post_count
+          @post_count = { label_key: 'add_to_summary.digest.new_posts',
+          value: new_posts_count,
+          href: "#{Discourse.base_url}/new" }
+          puts "JP YYY UserNotificationOverride! Since: #{since}. Posts: #{new_posts_count}. PC: #{@post_counts}"
         end
         super(user, opts)
       end
@@ -65,10 +42,6 @@ after_initialize do
 
     class ::UserNotifications
       prepend ::UserNotificationsOverride
-      def self.stupid
-        puts "Yes!"
-      end
-
     end
 
     module ::DiscourseAddToSummary
@@ -78,23 +51,5 @@ after_initialize do
       end
     end
 
-    module ::PostsOverride
-    end
-
-
-    class ::Posts
-      prepend ::PostsOverride
-      def self.for_digest(user, since, opts = nil)
-        return Post.created_since(since)
-      end
-    end
-
-
-    # require_dependency 'user_notifications'
-    # class ::UserNotifications
-    #   if SiteSetting.discourse_add_to_summary_enabled
-    #     prepend AddToMailerExtension
-    #   end
-    # end
-
+  end
 end
