@@ -67,6 +67,7 @@ describe DiscourseAddNewPostsToSummary::ActionsController do
     it "matches the original discourse html template" do
       orig_text = File.read('./app/views/user_notifications/digest.html.erb')
       plugin_text_all = (File.read('plugins/discourse-add-new-posts-to-summary/app/views/user_notifications/digest.html.erb'))
+      plugin_text_orig = plugin_text_all.lines[3..-1].join
       expect((orig_text == plugin_text_orig)).to be true
     end
   end
