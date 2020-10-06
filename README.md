@@ -1,6 +1,6 @@
 # DiscourseAddNewPostsToSummary
 
-DiscourseAddNewPostsToSummary is a plugin for ...
+DiscourseAddNewPostsToSummary adds the number of new posts to summary/digest email in the 3rd position (usually where new users is).
 
 ## Installation
 
@@ -10,7 +10,9 @@ as the plugin command.
 
 ## Usage
 
+Plugin is enabled by default.
+
 ## Feedback
 
-If you have issues or suggestions for the plugin, please bring them up on
-[Discourse Meta](https://meta.discourse.org).
+If you have issues or suggestions for the plugin, please open an issue at
+[github](https://github.com/literatecomputing/discourse-add-new-posts-to-summary/issues).
